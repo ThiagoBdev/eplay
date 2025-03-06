@@ -4,18 +4,13 @@ import Section from '../../components/Section'
 import Gallery from '../../components/Gallery'
 import { useGetGameQuery } from '../../services/api'
 
+type GameParams = {
+  id: string
+}
+
 const Product = () => {
-  const { id } = useParams()
-  const { data: game, isLoading } = useGetGameQuery(id!)
-
-
-  if (!id) {
-    return <p>Jogo não encontrado</p>
-  }
-
-  if (isLoading) {
-    return <h3>Carregando...</h3>
-  }
+  const { id } = useParams() as GameParams
+  const { data: game } = useGetGameQuery(id)
 
   if (!game) {
     return <p>Jogo não encontrado</p>

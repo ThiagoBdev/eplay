@@ -20,7 +20,7 @@ const Button = ({
   if (type === 'button') {
     return (
       <ButtonContainer
-        variant={variant}
+        $variant={variant}
         type="button"
         title="title"
         onClick={onClick}
