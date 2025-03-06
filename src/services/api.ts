@@ -31,7 +31,7 @@ const api = createApi({
       query: () => 'rpg'
     }),
     getGame: builder.query<Game, string>({
-      query: (id) => 'jogos/${id}'
+      query: (id) => `jogos/${id}`
     })
   })
 })
