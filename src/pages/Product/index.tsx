@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Hero from '../../components/Hero'
 import Section from '../../components/Section'
 import Gallery from '../../components/Gallery'
+import Loader from '../../components/Loader'
 
 import { useGetGameQuery } from '../../services/api'
 
@@ -15,7 +16,7 @@ const Product = () => {
   const { data: game } = useGetGameQuery(id)
 
   if (!game) {
-    return <p>Jogo não encontrado</p>
+    return <Loader />
   }
   return (
     <>
