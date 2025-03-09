@@ -50,7 +50,7 @@ const Home = () => {
           games={soonGames}
           title="Em breve"
           background="black"
-          id="cooming-soon"
+          id="coming-soon"
         />
       </>
     )
