@@ -8,9 +8,12 @@ import boleto from '../../assets/images/boleto.png'
 import cartao from '../../assets/images/cartao.png'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { usePurchaseMutation } from '../../services/api'
 
 const Checkout = () => {
   const [payWithCard, setPayWithCard] = useState(false)
+  const [purchase, { isLoading, isError, data }] = usePurchaseMutation()
+
   const form = useFormik({
     initialValues: {
       fullName: '',
@@ -66,7 +69,39 @@ const Checkout = () => {
       )
     }),
     onSubmit: (values) => {
-      console.log(values)
+      purchase({
+        billing: {
+          document: values.cpf,
+          email: values.email,
+          name: values.fullName
+        },
+        delivery: {
+          email: values.deliveryEmail
+        },
+        payment: {
+          installments: 1,
+          card: {
+            active: payWithCard,
+            code: Number(values.cardCode),
+            name: values.cardDisplayname,
+            number: values.cardNumber,
+            owner: {
+              document: values.cpfCardOwner,
+              name: values.cardOwner
+            },
+            expires: {
+              month: 1,
+              year: 2025
+            }
+          }
+        },
+        products: [
+          {
+            id: 1,
+            price: 10
+          }
+        ]
+      })
     }
   })
 
@@ -88,12 +123,12 @@ const Checkout = () => {
               <input
                 id="fullname"
                 type="text"
-                name="fullname"
+                name="fullName"
                 value={form.values.fullName}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
               />
-              <small>{getErrorMessage('fullname', form.errors.fullName)}</small>
+              <small>{getErrorMessage('fullName', form.errors.fullName)}</small>
             </InputGroup>
             <InputGroup>
               <label htmlFor="email">E-mail</label>
@@ -180,7 +215,7 @@ const Checkout = () => {
                     <input
                       type="text"
                       id="cardOwner"
-                      name="carOwner"
+                      name="cardOwner"
                       value={form.values.cardOwner}
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
